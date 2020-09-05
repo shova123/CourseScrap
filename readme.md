@@ -98,3 +98,5 @@ Note: firstly all required data are fetched individually and set those data in d
                         header("Content-Disposition: attachment; filename=\"$fileName\""); <br/>
                         header("Content-Type: application/vnd.ms-excel");
  <br/>
+
+10. final output  in excel format is saved in public folder for sample reference  
