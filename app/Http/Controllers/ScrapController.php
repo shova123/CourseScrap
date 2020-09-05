@@ -23,7 +23,7 @@ class ScrapController extends Controller {
 
     private function scrap() {
 
-
+      
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->url);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
@@ -129,8 +129,7 @@ class ScrapController extends Controller {
                                         echo implode("\t", array_keys($row)) . "\n";
                                         $flag = true;
                                 }
-                                // filter data
-                //		array_walk($row, 'filterData');
+;
                                 echo implode("\t", array_values($row)) . "\n";
                         }
                        
@@ -142,12 +141,7 @@ class ScrapController extends Controller {
 
     }
     
-    	function filterData(&$str) {
-		$str = preg_replace("/\t/", "\\t", $str);
-		$str = preg_replace("/\r?\n/", "\\n", $str);
-		if(strstr($str, '"')) $str = '"' . str_replace('"', '""', $str) . '"';
-	}
-    
+
 
 
 }

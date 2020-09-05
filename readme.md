@@ -1,72 +1,93 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+1.Course craping get the data from site studyinaustralia.gov.au.
+2.List of data from website is extracted under defined filter set 
+    Level of study -Bachelor Degree
+    Field of study -computer science and IT
+    Regions - Queensland 
+3.Platform used Laravel
+4.Curl is used to connect with site and  scrap data from site .Reference link is :https://search.studyinaustralia.gov.au/course/search-results.html?qualificationid=12&subjectid=E&locationid=4 and html dom parsser library is used to read and extract data from dom.
+5.
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $response = curl_exec($ch);
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+        curl_close($ch);
 
-## About Laravel
+fetch and return dom data using curl
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+6. $dom = HtmlDomParser::str_get_html($response); 
+This line parse the return data and helps in manipulating dom data.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+7.$this->university = $dom->find('h2.univ_tit > a');//find each university name list
+           foreach($this -> university as $key =>  $u)
+           {
+               $this -> universityArray[] =$this -> university[$key]->innertext; // list of universitites in array
+                
+           }
+This block of code search university title in dom through its class name. This list all university name available in array universityArray.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+8. $this -> degree = $dom -> find("h3.crs_tit > a");  // finding courses inside each university
+           foreach ($this -> degree as $key => $d){
+               $this -> degreeArray[] =$d->innertext;    // list of courses in array
+                
+           }
+This block of code search level of study title in dom through its class name. This list all university name available in array degreeArray.
+           
+ 9.$this -> level = $dom -> find("div.fl_w100 span");
+           foreach($this -> level as $key =>$detail){
+                $this -> levelArray[] =  $detail -> plaintext; //list of  details of course 
+            }
 
-## Learning Laravel
+This block of code search level of course information in dom through its class name. This list all university name available in array levelArray
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Note: firstly all required data are fetched individually and set those data in data.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+7. find count of university , course and course information available in dom.
 
-## Laravel Sponsors
+8.Create standard array of format from  array of universities, course and course information
+[0]=>
+  array(8) {
+    [0]=>
+    string(15) "University Name"
+    [1]=>
+    string(11) "Course Name"
+    [2]=>
+    string(14) "Level of study"
+    [3]=>
+    string(10) "Start Date"
+    [4]=>
+    string(10) "Start Date"
+    [5]=>
+    string(8) "Duration"
+    [6]=>
+    string(11) "Tution Fees"
+    [7]=>
+    string(9) "Total Fee"
+  }
+  [1]=>
+  array(19) {
+    [0]=>
+    array(7) {
+      [0]=>
+      string(100) " CQUniversity Australia "
+      [1]=>
+      string(123) " Bachelor of Digital Media - CC24 "
+      [2]=>
+      string(13) "Undergraduate"
+      [3]=>
+      string(23) " March 2021, July 2021 "
+      [4]=>
+      string(7) "3 years"
+      [5]=>
+      string(15) "28,320 Per Year"
+      [6]=>
+      string(16) "Term fee: 14,160"
+    }
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+9.export of data in xls format using header information
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
+                        header("Content-Disposition: attachment; filename=\"$fileName\"");
+                        header("Content-Type: application/vnd.ms-excel");
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
