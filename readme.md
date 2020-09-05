@@ -39,61 +39,62 @@ This block of code search university title in dom through its class name. This l
                $this -> degreeArray[] =$d->innertext;    // list of courses in array <br/>
                 
            }
-This block of code search level of study title in dom through its class name. This list all university name available in array degreeArray.
+This block of code search level of study title in dom through its class name. This list all university name available in array degreeArray. <br/>
            
  9.$this -> level = $dom -> find("div.fl_w100 span");
            foreach($this -> level as $key =>$detail){
                 $this -> levelArray[] =  $detail -> plaintext; //list of  details of course 
-            }
+            } <br/>
 
-This block of code search level of course information in dom through its class name. This list all university name available in array levelArray
+This block of code search level of course information in dom through its class name. This list all university name available in array levelArray <br/>
+ 
+Note: firstly all required data are fetched individually and set those data in data. <br/>
 
-Note: firstly all required data are fetched individually and set those data in data.
+7. find count of university , course and course information available in dom. <br/>
 
-7. find count of university , course and course information available in dom.
+8.Create standard array of format from  array of universities, course and course information <br/>
 
-8.Create standard array of format from  array of universities, course and course information
 [0]=>
-  array(8) {
+  array(8) { <br/>
     [0]=>
-    string(15) "University Name"
+    string(15) "University Name" <br/>
     [1]=>
-    string(11) "Course Name"
+    string(11) "Course Name" <br/>
     [2]=>
-    string(14) "Level of study"
+    string(14) "Level of study" <br/>
     [3]=>
-    string(10) "Start Date"
+    string(10) "Start Date" <br/>
     [4]=>
-    string(10) "Start Date"
+    string(10) "Start Date" <br/>
     [5]=>
-    string(8) "Duration"
+    string(8) "Duration" <br/>
     [6]=>
-    string(11) "Tution Fees"
+    string(11) "Tution Fees" <br/>
     [7]=>
-    string(9) "Total Fee"
+    string(9) "Total Fee" <br/>
   }
   [1]=>
-  array(19) {
+  array(19) { <br/>
     [0]=>
-    array(7) {
+    array(7) { <br/>
       [0]=>
-      string(100) " CQUniversity Australia "
+      string(100) " CQUniversity Australia " <br/>
       [1]=>
-      string(123) " Bachelor of Digital Media - CC24 "
+      string(123) " Bachelor of Digital Media - CC24 " <br/>
       [2]=>
-      string(13) "Undergraduate"
-      [3]=>
-      string(23) " March 2021, July 2021 "
+      string(13) "Undergraduate" <br/>
+      [3]=> 
+      string(23) " March 2021, July 2021 " <br/>
       [4]=>
-      string(7) "3 years"
+      string(7) "3 years" <br/>
       [5]=>
-      string(15) "28,320 Per Year"
+      string(15) "28,320 Per Year" <br/>
       [6]=>
-      string(16) "Term fee: 14,160"
+      string(16) "Term fee: 14,160" <br/>
     }
 
-9.export of data in xls format using header information
+9.export of data in xls format using header information <br/>
 
-                        header("Content-Disposition: attachment; filename=\"$fileName\"");
+                        header("Content-Disposition: attachment; filename=\"$fileName\""); <br/>
                         header("Content-Type: application/vnd.ms-excel");
-
+ <br/>
