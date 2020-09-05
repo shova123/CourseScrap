@@ -1,3 +1,9 @@
+<h2>TO clone repository</h3> <br/>
+ step1. git clone https://github.com/shova123/CourseScrap.git<br/>
+ step2. composer update<br/>
+
+
+
 1.Course craping get the data from site studyinaustralia.gov.au.<br/>
 
 2.List of data from website is extracted under defined filter set <br/>
